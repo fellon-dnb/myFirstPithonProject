@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import pyperclip 
 from jcalculator import JCalculator
 
 class GUICalculator:
@@ -7,7 +8,7 @@ class GUICalculator:
         self.root = root
         self.root.title("Мой Калькулятор с Java")
         self.root.geometry("350x600")
-        self.root.configure(bg="#e8ecef")  
+        self.root.configure(bg="#e8ecef")
         try:
             self.root.iconbitmap("D:\\WorkSpace\\myFirstPithonProject\\calculator_icon.ico")
         except tk.TclError:
@@ -16,10 +17,8 @@ class GUICalculator:
         self.calc = JCalculator()
         self.history = []
 
-
         input_frame = tk.Frame(self.root, bg="#e8ecef", bd=2, relief="groove")
         input_frame.pack(pady=10, padx=10, fill="x")
-
 
         tk.Label(input_frame, text="Первое число:", font=('Arial', 12, 'bold'), bg="#e8ecef", fg="#2c3e50").grid(row=0, column=0, padx=5, pady=5, sticky="w")
         self.entry1 = tk.Entry(input_frame, width=15, font=('Arial', 12), bd=2, relief="sunken")
@@ -29,7 +28,6 @@ class GUICalculator:
         self.entry2 = tk.Entry(input_frame, width=15, font=('Arial', 12), bd=2, relief="sunken")
         self.entry2.grid(row=1, column=1, padx=5, pady=5)
 
-
         tk.Label(input_frame, text="Операция:", font=('Arial', 12, 'bold'), bg="#e8ecef", fg="#2c3e50").grid(row=2, column=0, padx=5, pady=5, sticky="w")
         self.operation_var = tk.StringVar(value="+")
         operations = ["+", "-", "*", "/", "**"]
@@ -37,22 +35,17 @@ class GUICalculator:
         operation_menu.config(font=('Arial', 12), bg="#ffffff", fg="#2c3e50", bd=2, relief="sunken")
         operation_menu.grid(row=2, column=1, padx=5, pady=5, sticky="ew")
 
-
         button_frame = tk.Frame(self.root, bg="#e8ecef")
         button_frame.pack(pady=5)
-
 
         tk.Button(button_frame, text="=", width=10, height=2, font=('Arial', 12, 'bold'),
                   command=self.calculate, bg="#28a745", fg="white", bd=2, relief="raised").pack(side="left", padx=5)
 
-
         tk.Button(button_frame, text="Очистить", width=10, height=2, font=('Arial', 12, 'bold'),
                   command=self.clear, bg="#dc3545", fg="white", bd=2, relief="raised").pack(side="left", padx=5)
 
-
         self.result_label = tk.Label(self.root, text="Результат: ", font=('Arial', 12, 'bold'), bg="#e8ecef", fg="#2c3e50")
         self.result_label.pack(pady=5)
-
 
         history_frame = tk.Frame(self.root, bg="#e8ecef", bd=2, relief="groove")
         history_frame.pack(pady=10, padx=10, fill="x")
@@ -60,11 +53,10 @@ class GUICalculator:
         tk.Label(history_frame, text="История:", font=('Arial', 12, 'bold'), bg="#e8ecef", fg="#2c3e50").pack(anchor="w", padx=5)
         self.history_listbox = tk.Listbox(history_frame, width=30, height=3, font=('Arial', 10), bg="#ffffff", fg="#2c3e50", bd=2, relief="sunken")
         self.history_listbox.pack(pady=5, padx=5, fill="x")
-
+        self.history_listbox.bind("<Double-1>", self.copy_to_clipboard)
 
         digit_frame = tk.Frame(self.root, bg="#e8ecef")
         digit_frame.pack(pady=10)
-
 
         row = 0
         col = 0
@@ -104,6 +96,15 @@ class GUICalculator:
         except (ValueError, ZeroDivisionError) as e:
             messagebox.showerror("Ошибка", str(e))
             self.clear()
+
+    def copy_to_clipboard(self, event):
+
+        selection = self.history_listbox.curselection()
+        if selection:
+            index = selection[0]
+            text = self.history_listbox.get(index)
+            pyperclip.copy(text)
+            messagebox.showinfo("скопирывано ", "Скопировано в буфер обмена!")
 
 if __name__ == "__main__":
     root = tk.Tk()
