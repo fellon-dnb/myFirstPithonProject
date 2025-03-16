@@ -3,7 +3,7 @@ class Calculator:
         self.result = 0
 
     def calculate(self, number1, number2, operation):
-        """Метод для выполнения вычислений."""
+
         try:
             number1 = float(number1)
             number2 = float(number2)
