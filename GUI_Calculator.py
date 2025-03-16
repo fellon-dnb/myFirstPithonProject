@@ -6,8 +6,8 @@ class GUICalculator:
     def __init__(self, root):
         self.root = root
         self.root.title("Мой Калькулятор с Java")
-        self.root.geometry("350x550")
-        self.root.configure(bg="#e8ecef")  #
+        self.root.geometry("350x600")
+        self.root.configure(bg="#e8ecef")  
         try:
             self.root.iconbitmap("D:\\WorkSpace\\myFirstPithonProject\\calculator_icon.ico")
         except tk.TclError:
