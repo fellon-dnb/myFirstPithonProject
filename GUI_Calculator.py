@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from calculator import Calculator
+from jcalculator import JCalculator
 
 
 class GUICalculator:
@@ -8,7 +8,7 @@ class GUICalculator:
         self.root = root
         self.root.title("Мой Калькулятор")
         self.root.geometry("300x400")
-        self.calc = Calculator()
+        self.calc = JCalculator()
 
         tk.Label(self.root, text="Первое число:", font=('Arial', 12)).grid(row=0, column=0, padx=5, pady=5)
         self.entry1 = tk.Entry(self.root, width=15, font=('Arial', 12))
